@@ -6,8 +6,12 @@ pipeline {
         AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
         AWS_DEFAULT_REGION = "eu-west-3"
     }
+    parameters {
+        booleanParam(name: 'create_eks', defaultValue: false) 
+    }
     stages {
         stage("Create an EKS Cluster") {
+            when { expression { return params.create_eks } }
             steps {
                 script {
                     dir('terraform') {
